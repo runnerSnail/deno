@@ -12,6 +12,14 @@ export function loadavg(): number[] {
   return sendSync("op_loadavg");
 }
 
+/** Synchronously get logical cpu count
+ *
+ *       Deno.cpuCountSync();
+ */
+export function cpunum(): number {
+  return sendSync("op_cpu_num");
+}
+
 /** Get the hostname.
  * Requires the `--allow-env` flag.
  *

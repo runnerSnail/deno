@@ -93,7 +93,8 @@ export {
   execPath,
   hostname,
   loadavg,
-  osRelease
+  osRelease,
+  cpunum
 } from "./os.ts";
 export {
   permissions,

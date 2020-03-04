@@ -17,6 +17,7 @@ pub fn init(i: &mut Isolate, s: &State) {
   i.register_op("op_get_env", s.stateful_json_op(op_get_env));
   i.register_op("op_get_dir", s.stateful_json_op(op_get_dir));
   i.register_op("op_hostname", s.stateful_json_op(op_hostname));
+  i.register_op("op_cpu_num", s.stateful_json_op(op_cpu_num));
   i.register_op("op_loadavg", s.stateful_json_op(op_loadavg));
   i.register_op("op_os_release", s.stateful_json_op(op_os_release));
 }
@@ -173,6 +174,16 @@ fn op_hostname(
   state.check_env()?;
   let hostname = sys_info::hostname().unwrap_or_else(|_| "".to_string());
   Ok(JsonOp::Sync(json!(hostname)))
+}
+
+fn op_cpu_num(
+  state: &State,
+  _args: Value,
+  _zero_copy: Option<ZeroCopyBuf>,
+) -> Result<JsonOp, OpError> {
+  state.check_env()?;
+  let cpu_num = sys_info::cpu_num().unwrap_or_else(|_| 0);
+  Ok(JsonOp::Sync(json!(cpu_num)))
 }
 
 fn op_os_release(
